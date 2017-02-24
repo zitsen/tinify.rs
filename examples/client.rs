@@ -1,0 +1,52 @@
+#![deny(warnings)]
+extern crate futures;
+extern crate hyper;
+#[macro_use]
+extern crate log;
+extern crate pretty_env_logger;
+extern crate tokio_core;
+extern crate url;
+
+use futures::Future;
+use futures::stream::Stream;
+use hyper::Client;
+use std::env;
+use std::io::{self, Write};
+use std::str::FromStr;
+
+fn main() {
+    pretty_env_logger::init();
+
+    let url = match env::args().nth(1) {
+        Some(url) => url,
+        None => {
+            println!("Usage: client <url>");
+            return;
+        }
+    };
+
+    let url = hyper::Uri::from_str(&url).unwrap();
+    // if url.scheme() != "http" {
+    // println!("This example only works with 'http' URLs.");
+    // return;
+    // }
+
+    let mut core = tokio_core::reactor::Core::new().unwrap();
+    let handle = core.handle();
+    let client = Client::new(&handle);
+
+    let work = client
+        .get(url)
+        .and_then(|res| {
+            info!("Response: {}", res.status());
+            debug!("Headers: \n{}", res.headers());
+
+            res.body()
+                .for_each(|chunk| io::stdout().write_all(&chunk).map_err(From::from))
+        })
+        .map(|_| {
+            info!("\n\nDone.");
+        });
+
+    core.run(work).unwrap();
+}

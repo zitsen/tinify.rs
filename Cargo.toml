@@ -1,0 +1,21 @@
+[package]
+name = "tinify"
+version = "0.1.0"
+authors = ["Huo Linhe <linhehuo@gmail.com>"]
+
+[dependencies]
+url = "1.7"
+curl = "*"
+reqwest = "*"
+log = "*"
+dotenv = "*"
+quick-error = "*"
+serde = "1"
+serde_derive = "1"
+serde_json = "1"
+
+[dev-dependencies]
+futures = "*"
+hyper = "*"
+tokio-core ="*"
+pretty_env_logger = "*"
