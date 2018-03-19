@@ -2,6 +2,7 @@
 name = "tinify"
 version = "0.1.0"
 authors = ["Huo Linhe <linhehuo@gmail.com>"]
+license = "MTI/Apache 2.0"
 
 [dependencies]
 url = "1.7"

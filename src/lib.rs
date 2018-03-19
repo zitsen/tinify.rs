@@ -1,3 +1,6 @@
+//! A WIP [Tinify.com API](https://tinypng.com/) client.
+//!
+//! **DO NOT USE**
 extern crate curl;
 #[macro_use]
 extern crate log;
